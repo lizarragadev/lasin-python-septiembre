@@ -1,8 +1,8 @@
-# Curso de Python — Nivel Básico (LASIN) [Rama: code]
+# Curso de Python — Nivel Básico (LASIN)
 
 ¡Bienvenido al repositorio oficial del curso **Python Nivel Básico** de **LASIN**!
 
-Esta es la rama principal de avance del curso (**`code`**), donde se va incorporando progresivamente el código y los ejemplos trabajados clase a clase.
+En este repositorio iremos incorporando progresivamente el código, demostraciones y ejercicios trabajados clase a clase.
 
 ---
 
@@ -15,7 +15,7 @@ Esta es la rama principal de avance del curso (**`code`**), donde se va incorpor
 
 ---
 
-## 🗂️ Estructura de la Rama `code` (Avance Gradual)
+## 🗂️ Estructura del Repositorio
 
 ```text
 CursoPythonSamples/
@@ -37,8 +37,6 @@ CursoPythonSamples/
     ├── 03_bucles_for_y_range.py
     └── 04_bucles_while_y_patrones.py
 ```
-
-> **Nota:** Los siguientes demos, ejercicios integradores y módulos (Módulo 3, 4 y 5) se irán agregando a esta rama a medida que se dicten las clases. La solución completa de demostraciones avanzadas se encuentra en la rama `main`.
 
 ---
 
