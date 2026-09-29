@@ -2,7 +2,7 @@
 
 ¡Bienvenido al repositorio oficial del curso **Python Nivel Básico** de **LASIN**!
 
-Este repositorio está estructurado por módulos y lecciones para facilitar el aprendizaje práctico, paso a paso, aplicando los conceptos a problemas reales de **procesamiento de datos, automatización, consumo de APIs e información geográfica**.
+Este repositorio está estructurado por módulos y lecciones para facilitar el aprendizaje práctico, paso a paso, aplicando los conceptos a problemas reales de **procesamiento de datos, automatización, consumo de APIs, POO (Clases, Herencia, Polimorfismo, Dataclasses, Enums), SQLite e información geográfica**.
 
 ---
 
@@ -16,7 +16,7 @@ Este repositorio está estructurado por módulos y lecciones para facilitar el a
 
 ---
 
-## 🗂️ Estructura Completa del Repositorio
+## 🗂️ Estructura Completa del Repositorio (`main`)
 
 ```text
 CursoPythonSamples/
@@ -58,11 +58,13 @@ CursoPythonSamples/
 │   ├── 05_demo_ocr_procesamiento_documentos.py
 │   ├── 06_modulos_propios_y_paquetes.py
 │   └── 07_demo_dataflow_v2.py
-└── modulo_05_proyecto_y_temas_avanzados/    # SQLite, GeoJSON, POO, buenas prácticas y Proyecto Final
+└── modulo_05_proyecto_y_temas_avanzados/    # SQLite, GeoJSON, POO (Herencia, Polimorfismo, Dataclasses, Enums) y Proyecto Final
     ├── README.md
     ├── 01_sqlite_bases_de_datos.py
     ├── 02_datos_geoespaciales.py
     ├── 03_introduccion_poo.py
+    ├── 03b_poo_herencia_polimorfismo.py
+    ├── 03c_poo_dataclasses_y_enums.py
     ├── 04_buenas_practicas_y_uso_ia.py
     └── 05_proyecto_final_dataflow/
         ├── dataflow_app.py
@@ -77,6 +79,6 @@ CursoPythonSamples/
 Asegúrate de tener instalado **Python 3.10+**. Para ejecutar cualquiera de los ejemplos desde la terminal:
 
 ```bash
-cd modulo_01_primeros_pasos
-python 07_demo_analisis_ventas.py
+cd modulo_05_proyecto_y_temas_avanzados
+python 03c_poo_dataclasses_y_enums.py
 ```

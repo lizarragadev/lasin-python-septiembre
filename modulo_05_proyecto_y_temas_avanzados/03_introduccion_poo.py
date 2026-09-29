@@ -5,95 +5,112 @@ Curso: Python Nivel Básico - LASIN
 ==============================================================================
 
 CONCEPTOS CLAVE DE POO:
-1. Clase (Class): Es el plano, molde o plantilla que define las propiedades y
-   comportamientos que tendrán los objetos creados a partir de ella.
+1. Clase (Class):
+   - Es el plano, molde o plantilla que define las propiedades (atributos) y
+     comportamientos (métodos) que tendrán los objetos creados a partir de ella.
 
-2. Objeto (Instancia): Es un elemento concreto construido en memoria usando el molde de la Clase.
+2. Objeto (Instancia):
+   - Es un elemento concreto construido en la memoria RAM usando el molde de la Clase.
 
 3. Atributos y el Método Constructor __init__(self, ...):
-   - Atributos: Variables asociadas a cada objeto (ej. marca, modelo, anio).
+   - Atributos: Variables asociadas a cada objeto (ej. titular, saldo, num_cuenta).
    - __init__: Método especial que se ejecuta automáticamente al instanciar un objeto.
-   - 'self': Referencia obligatoria dentro de la clase que apunta a la instancia actual del objeto.
+   - 'self': Referencia obligatoria dentro de la clase que apunta a la instancia actual.
 
-4. Métodos: Funciones declaradas dentro de una clase que representan las acciones que el objeto puede realizar.
-
-5. Herencia: Permite que una clase hija (Subclase) herede atributos y métodos de una clase padre (Superclase).
-   - super().__init__(...): Llama al constructor de la clase padre para reutilizar su lógica.
+4. Encapsulamiento y Propiedades (@property):
+   - Protege los atributos internos de un objeto contra modificaciones indebidas.
+   - Atributos protegidos: Se nombran con un guión bajo inicial `_saldo`.
+   - `@property` (Getter) y `@property.setter` (Setter): Permiten leer y validar
+     cambios en los atributos de forma controlada.
 ==============================================================================
 """
 
-print("=== INTRODUCCIÓN A LA PROGRAMACIÓN ORIENTADA A OBJETOS (POO) ===\n")
+print("=== INTRODUCCIÓN A LA POO: CLASES, OBJETOS Y ENCAPSULAMIENTO ===\n")
 
 # ==============================================================================
-# 1. SUPERCLASE PADRE: VEHICULO
+# 1. DEFINICIÓN DE LA CLASE 'CuentaBancaria'
 # ==============================================================================
-class Vehiculo:
-    """Clase base que define la estructura general de cualquier vehículo."""
+class CuentaBancaria:
+    """Clase que representa una cuenta bancaria con saldo protegido y validaciones."""
 
-    def __init__(self, marca: str, modelo: str, anio: int):
-        # Asignamos los argumentos a los atributos del objeto usando 'self.'
-        self.marca = marca
-        self.modelo = modelo
-        self.anio = anio
-        self.encendido = False  # Estado inicial por defecto (aperturado apagado)
+    def __init__(self, titular: str, num_cuenta: str, saldo_inicial: float = 0.0):
+        # Atributos públicos de la instancia
+        self.titular = titular.strip().title()
+        self.num_cuenta = num_cuenta.strip()
 
-    def encender(self):
-        """Método de instancia que cambia el estado del vehículo a encendido."""
-        self.encendido = True
-        print(f"✓ El vehículo {self.marca} {self.modelo} ha sido encendido.")
+        # Atributo protegido (comienza con '_'): Indica que NO se debe modificar directamente desde fuera
+        self._saldo = saldo_inicial if saldo_inicial >= 0 else 0.0
 
-    def obtener_informacion(self) -> str:
-        """Devuelve una representación formateada del vehículo."""
-        estado = "Encendido" if self.encendido else "Apagado"
-        return f"{self.anio} {self.marca} {self.modelo} [{estado}]"
+    # --------------------------------------------------------------------------
+    # ENCAPSULAMIENTO CON PROPIEDADES (@property -> GETTER Y SETTER)
+    # --------------------------------------------------------------------------
+    @property
+    def saldo(self) -> float:
+        """GETTER: Permite consultar el saldo de forma segura como si fuera un atributo."""
+        return self._saldo
+
+    @saldo.setter
+    def saldo(self, nuevo_monto: float):
+        """SETTER: Valida que el nuevo saldo no sea negativo antes de asignarlo."""
+        if nuevo_monto >= 0:
+            self._saldo = nuevo_monto
+            print(f"✓ Saldo actualizado correctamente a: Bs. {self._saldo:,.2f}")
+        else:
+            print("❌ ERROR: El saldo no puede ser un valor negativo.")
+
+    # --------------------------------------------------------------------------
+    # MÉTODOS DE INSTANCIA (COMPORTAMIENTO)
+    # --------------------------------------------------------------------------
+    def depositar(self, monto: float):
+        """Incrementa el saldo si el monto ingresado es positivo."""
+        if monto > 0:
+            self._saldo += monto
+            print(f"✓ Depósito exitoso de Bs. {monto:,.2f} en cuenta {self.num_cuenta}.")
+            print(f"  -> Nuevo Saldo Disponible: Bs. {self._saldo:,.2f}")
+        else:
+            print("❌ Error: El monto a depositar debe ser mayor a 0 Bs.")
+
+    def retirar(self, monto: float) -> bool:
+        """Descuenta saldo si existen fondos suficientes."""
+        if monto <= 0:
+            print("❌ Error: El monto a retirar debe ser mayor a 0 Bs.")
+            return False
+
+        if monto <= self._saldo:
+            self._saldo -= monto
+            print(f"✓ Retiro exitoso de Bs. {monto:,.2f} de cuenta {self.num_cuenta}.")
+            print(f"  -> Saldo Remanente: Bs. {self._saldo:,.2f}")
+            return True
+        else:
+            print(f"❌ Fondos insuficientes en cuenta {self.num_cuenta}. Saldo actual: Bs. {self._saldo:,.2f}")
+            return False
+
+    def __str__(self) -> str:
+        """Método especial para representación bonita en texto con print(objeto)."""
+        return f"Cuenta {self.num_cuenta} [{self.titular}] - Saldo: Bs. {self._saldo:,.2f}"
 
 
 # ==============================================================================
-# 2. SUBCLASE HIJA: AUTO (HEREDA DE VEHICULO)
+# 2. INSTANCIACIÓN DE OBJETOS Y PRUEBAS
 # ==============================================================================
-class Auto(Vehiculo):
-    """Subclase Auto que extiende de Vehiculo añadiendo el atributo 'num_puertas'."""
+if __name__ == "__main__":
+    print("--- 1. INSTANCIACIÓN DE OBJETOS Y OPERACIONES ---")
 
-    def __init__(self, marca: str, modelo: str, anio: int, num_puertas: int):
-        # super().__init__() invoca al constructor de Vehiculo para inicializar marca, modelo y anio
-        super().__init__(marca, modelo, anio)
-        self.num_puertas = num_puertas
+    # Creamos un objeto concreto en memoria
+    cuenta_juan = CuentaBancaria(titular="Juan Perez", num_cuenta="CTA-1001", saldo_inicial=1500.0)
+    
+    # Invocamos __str__() implícitamente al imprimir
+    print(cuenta_juan)
 
-    def abrir_maletero(self):
-        """Método exclusivo de la clase Auto."""
-        print(f"🚗 Abriendo maletero del auto {self.marca} {self.modelo}.")
+    # Invocación de métodos
+    cuenta_juan.depositar(500.0)
+    cuenta_juan.retirar(300.0)
+    cuenta_juan.retirar(5000.0)  # Intento de retiro por encima del saldo
 
+    print("\n--- 2. PRUEBA DE PROPIEDADES ENCAPSULADAS (@property) ---")
+    # Lectura a través del Getter
+    print(f"Saldo consultado vía Getter (@property): Bs. {cuenta_juan.saldo:,.2f}")
 
-# ==============================================================================
-# 3. SUBCLASE HIJA: MOTO (HEREDA DE VEHICULO)
-# ==============================================================================
-class Moto(Vehiculo):
-    """Subclase Moto que extiende de Vehiculo añadiendo el atributo 'cilindrada'."""
-
-    def __init__(self, marca: str, modelo: str, anio: int, cilindrada: int):
-        super().__init__(marca, modelo, anio)
-        self.cilindrada = cilindrada
-
-    def hacer_caballito(self):
-        """Método exclusivo de la clase Moto."""
-        print(f"🏍️ La moto {self.marca} {self.modelo} ({self.cilindrada}cc) hace una maniobra.")
-
-
-# ==============================================================================
-# PRUEBAS E INSTANCIACIÓN DE OBJETOS EN MEMORIA
-# ==============================================================================
-print("--- INSTANCIACIÓN Y USO DE OBJETOS ---")
-
-# Instanciamos un objeto de la clase Auto
-mi_auto = Auto(marca="Toyota", modelo="Corolla", anio=2023, num_puertas=4)
-print("Información del auto:", mi_auto.obtener_informacion())
-mi_auto.encender()         # Llamamos al método heredado de Vehiculo
-mi_auto.abrir_maletero()   # Llamamos al método propio de Auto
-
-print("-" * 45)
-
-# Instanciamos un objeto de la clase Moto
-mi_moto = Moto(marca="Honda", modelo="CB500", anio=2024, cilindrada=500)
-print("Información de la moto:", mi_moto.obtener_informacion())
-mi_moto.encender()         # Llamamos al método heredado de Vehiculo
-mi_moto.hacer_caballito()  # Llamamos al método propio de Moto
+    # Asignación a través del Setter
+    cuenta_juan.saldo = 2500.0   # Asignación válida
+    cuenta_juan.saldo = -500.0   # Asignación bloqueada por validación del Setter
