@@ -16,7 +16,7 @@ Este repositorio está estructurado por módulos y lecciones para facilitar el a
 
 ---
 
-## 🗂️ Estructura Completa del Repositorio (`main`)
+## 🗂️ Estructura Completa del Repositorio
 
 ```text
 CursoPythonSamples/
